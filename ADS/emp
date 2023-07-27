@@ -1,0 +1,138 @@
+class Employee {
+    private String name;
+    private int id;
+    private double salary;
+    private String address;
+    private Employee prev; // Reference to the previous node in the linked list
+    private Employee next; // Reference to the next node in the linked list
+
+    public Employee(String name, int id, double salary, String address) {
+        this.name = name;
+        this.id = id;
+        this.salary = salary;
+        this.address = address;
+        this.prev = null;
+        this.next = null;
+    }
+
+    // Getters and setters (You can add more as needed)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Employee getPrev() {
+        return prev;
+    }
+
+    public void setPrev(Employee prev) {
+        this.prev = prev;
+    }
+
+    public Employee getNext() {
+        return next;
+    }
+
+    public void setNext(Employee next) {
+        this.next = next;
+    }
+}
+
+class DoublyLinkedList {
+    private Employee head; // Points to the first node in the list
+    private Employee tail; // Points to the last node in the list
+
+    public DoublyLinkedList() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    public void addEmployee(Employee employee) {
+        if (head == null) { // If the list is empty
+            head = employee;
+            tail = employee;
+        } else {
+            employee.setPrev(tail);
+            tail.setNext(employee);
+            tail = employee;
+        }
+    }
+
+    public void displayEmployees() {
+        Employee current = head;
+        while (current != null) {
+            System.out.println("Name: " + current.getName() + ", ID: " + current.getId() +
+                    ", Salary: " + current.getSalary() + ", Address: " + current.getAddress());
+            current = current.getNext();
+        }
+    }
+
+    public Employee searchEmployeeByName(String name) {
+        Employee current = head;
+        while (current != null) {
+            if (current.getName().equals(name)) {
+                return current;
+            }
+            current = current.getNext();
+        }
+        return null;
+    }
+
+    public void removeEmployee(Employee employee) {
+        if (employee == null) {
+            return;
+        }
+        if (employee.getPrev() != null) {
+            employee.getPrev().setNext(employee.getNext());
+        } else {
+            head = employee.getNext();
+        }
+        if (employee.getNext() != null) {
+            employee.getNext().setPrev(employee.getPrev());
+        } else {
+            tail = employee.getPrev();
+        }
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        // Creating the doubly linked list object
+        DoublyLinkedList employeeList = new DoublyLinkedList();
+
+        // Adding employees to the list using Employee objects
+        employeeList.addEmployee(new Employee("John Doe", 1001, 50000.0, "123 Main St"));
+        employeeList.addEmployee(new Employee("Jane Smith", 1002, 60000.0, "456 Park Ave"));
+        employeeList.addEmployee(new Employee("Mike Johnson", 1003, 55000.0, "789 Oak Rd"));
+
+        // Displaying all employees in the list
+        employeeList.displayEmployees();
+    }
+}
